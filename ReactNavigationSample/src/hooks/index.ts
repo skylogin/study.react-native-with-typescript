@@ -13,3 +13,5 @@ export * from './useMonitorAnimatedValueXY';
 export * from './useStyle';
 export * from './useTransformStyle';
 export * from './usePanResponder';
+
+export * from './useNavigationHorizontalInterpolator';
