@@ -14,9 +14,9 @@ export default function SignUp() {
   const [confirmPassword, setConfirmPassword] = useState<string>(password);
   const focus = useAutoFocus();
   const navigation = useNavigation();
-  const goHomeNavigator = useCallback(() => {
+  const goTabNavigator = useCallback(() => {
     if (password === confirmPassword) {
-      navigation.navigate('HomeNavigator');
+      navigation.navigate('TabNavigator');
     } else {
       Alert.alert('password is invalid');
     }
@@ -79,7 +79,7 @@ export default function SignUp() {
           <TouchableView
             notification
             style={[styles.touchableView]}
-            onPress={goHomeNavigator}>
+            onPress={goTabNavigator}>
             <Text style={[styles.text]}>SignUp</Text>
           </TouchableView>
           <UnderlineText
