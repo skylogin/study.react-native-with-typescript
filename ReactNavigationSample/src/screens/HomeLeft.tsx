@@ -1,53 +1,34 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, {useCallback, useEffect} from 'react';
+import React, {useCallback} from 'react';
 import {StyleSheet} from 'react-native';
+import {useNavigation} from '@react-navigation/native';
 import {
-  useNavigation,
-  useIsFocused,
-  useFocusEffect,
-} from '@react-navigation/native';
-import {SafeAreaView, View, Text, TopBar, UnderlineText} from '../theme';
-import * as D from '../data';
+  SafeAreaView,
+  View,
+  Text,
+  MaterialCommunityIcon as Icon,
+  NavigationHeader,
+} from '../theme';
 
-const title = 'HomeLeft';
+import {LeftRightNavigation} from '../components';
+
+const title = '카메라 접근을 허가해주세요';
 
 export default function HomeLeft() {
   const navigation = useNavigation();
-  const goBack = useCallback(
-    () => navigation.canGoBack() && navigation.goBack(),
-    [],
-  );
-  const goRight = useCallback(
-    () =>
-      navigation.canGoBack() &&
-      navigation.navigate('HomeRight', {id: D.randomId()}),
-    [],
-  );
-
-  const focused = useIsFocused();
-  useEffect(() => {
-    console.log('HomeLeft is Focused', focused);
-  }, [focused]);
-  useFocusEffect(() => {
-    console.log('useFocusEffect called');
-  });
+  const goHome = useCallback(() => navigation.navigate('Home'), []);
 
   return (
     <SafeAreaView>
       <View style={[styles.view]}>
-        <TopBar>
-          <UnderlineText onPress={goBack} style={styles.text}>
-            go back
-          </UnderlineText>
-          <UnderlineText
-            onPress={goRight}
-            style={(styles.text, {marginLeft: 10})}>
-            go Right
-          </UnderlineText>
-        </TopBar>
-        <View style={[styles.content]}>
-          <Text style={[styles.text]}>{title}</Text>
-        </View>
+        <NavigationHeader
+          Right={() => <Icon name="close" size={30} onPress={goHome} />}
+        />
+        <LeftRightNavigation distance={40} onRightToLeft={goHome}>
+          <View style={[styles.content]}>
+            <Text style={[styles.text]}>{title}</Text>
+          </View>
+        </LeftRightNavigation>
       </View>
     </SafeAreaView>
   );

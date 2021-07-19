@@ -9,7 +9,7 @@ export type NavigationHeaderProps = {
   Left?: () => ReactNode;
   Right?: () => ReactNode;
   viewStyle?: StyleProp<ViewStyle>;
-  titleStyle: StyleProp<TextStyle>;
+  titleStyle?: StyleProp<TextStyle>;
 };
 
 export const NavigationHeader: FC<NavigationHeaderProps> = ({
