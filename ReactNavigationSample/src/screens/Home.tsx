@@ -4,7 +4,14 @@ import React, {useState, useCallback, useEffect, useRef} from 'react';
 import {StyleSheet, FlatList} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 
-import {SafeAreaView, View, UnderlineText, TopBar} from '../theme';
+import {
+  SafeAreaView,
+  View,
+  UnderlineText,
+  TopBar,
+  NavigationHeader,
+  MaterialCommunityIcon as Icon,
+} from '../theme';
 import {ScrollEnabledProvider, useScrollEnabled} from '../contexts';
 
 import {LeftRightNavigation} from '../components';
@@ -21,6 +28,9 @@ export default function People() {
     () => navigation.navigate('HomeRight', {name: 'Jack', age: 32}),
     [],
   );
+  const logout = useCallback(() => {
+    navigation.navigate('Login');
+  }, []);
 
   // ref
   const leftRef = useRef<LeftRightNavigationMethods | null>(null);
@@ -51,6 +61,10 @@ export default function People() {
     <SafeAreaView>
       <ScrollEnabledProvider>
         <View style={[styles.view]}>
+          <NavigationHeader
+            title="Home"
+            Right={() => <Icon name="logout" size={30} onPress={logout} />}
+          />
           <TopBar>
             <UnderlineText onPress={goLeft} style={styles.text}>
               go Left
