@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import React, {useState, useCallback, useEffect, useRef} from 'react';
 import {StyleSheet, FlatList} from 'react-native';
-import {useNavigation} from '@react-navigation/native';
+import {useNavigation, DrawerActions} from '@react-navigation/native';
 
 import {
   SafeAreaView,
@@ -28,6 +28,10 @@ export default function People() {
     () => navigation.navigate('HomeRight', {name: 'Jack', age: 32}),
     [],
   );
+
+  const open = useCallback(() => {
+    navigation.dispatch(DrawerActions.openDrawer());
+  }, []);
   const logout = useCallback(() => {
     navigation.navigate('Login');
   }, []);
@@ -63,16 +67,9 @@ export default function People() {
         <View style={[styles.view]}>
           <NavigationHeader
             title="Home"
+            Left={() => <Icon name="menu" size={30} onPress={open} />}
             Right={() => <Icon name="logout" size={30} onPress={logout} />}
           />
-          <TopBar>
-            <UnderlineText onPress={goLeft} style={styles.text}>
-              go Left
-            </UnderlineText>
-            <UnderlineText onPress={goRight} style={styles.text}>
-              go Right
-            </UnderlineText>
-          </TopBar>
           <TopBar noSwitch>
             <UnderlineText onPress={addPerson} style={styles.text}>
               add

@@ -11,7 +11,7 @@ import {useNavigationHorizontalInterpolator} from '../hooks';
 
 const Stack = createStackNavigator();
 
-export default function MainNavigator() {
+export default function HomeNavigator() {
   const interpolator = useNavigationHorizontalInterpolator();
   const leftOptions = useMemo<StackNavigationOptions>(
     () => ({
