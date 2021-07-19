@@ -3,7 +3,7 @@
 import React, {useState, useCallback, useEffect} from 'react';
 import {StyleSheet, FlatList} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
-import {SafeAreaView, View, UnderlineText, TopBar} from '../theme/navigation';
+import {SafeAreaView, View, UnderlineText, TopBar} from '../theme';
 import {ScrollEnabledProvider, useScrollEnabled} from '../contexts';
 import * as D from '../data';
 import Person from './Person';

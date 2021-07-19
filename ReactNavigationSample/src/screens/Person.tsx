@@ -4,9 +4,13 @@ import React, {useState} from 'react';
 import type {FC} from 'react';
 import {Image} from 'react-native';
 import {Colors} from 'react-native-paper';
-// prettier-ignore
-import {View, Text, UnderlineText, TouchableView,
-MaterialCommunityIcon as Icon} from '../theme/navigation';
+import {
+  View,
+  Text,
+  UnderlineText,
+  TouchableView,
+  MaterialCommunityIcon as Icon,
+} from '../theme';
 import moment from 'moment-with-locales-es6';
 import * as D from '../data';
 import {Avatar} from '../components';

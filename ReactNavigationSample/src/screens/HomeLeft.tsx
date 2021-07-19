@@ -6,13 +6,7 @@ import {
   useIsFocused,
   useFocusEffect,
 } from '@react-navigation/native';
-import {
-  SafeAreaView,
-  View,
-  Text,
-  TopBar,
-  UnderlineText,
-} from '../theme/navigation';
+import {SafeAreaView, View, Text, TopBar, UnderlineText} from '../theme';
 import * as D from '../data';
 
 const title = 'HomeLeft';

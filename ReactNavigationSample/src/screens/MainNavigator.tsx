@@ -11,13 +11,7 @@ export default function MainNavigator() {
   return (
     <Stack.Navigator
       screenOptions={{
-        headerStyle: {
-          backgroundColor: '#ff4b54',
-        },
-        headerTintColor: 'white',
-        headerTitleStyle: {
-          fontWeight: 'bold',
-        },
+        headerShown: false,
       }}>
       <Stack.Screen name="Home" component={Home} />
       <Stack.Screen name="HomeLeft" component={HomeLeft} />
