@@ -13,13 +13,12 @@ import {Avatar} from '../components';
 import * as D from '../data';
 
 import {useSelector} from 'react-redux';
-import type {AppState, User} from '../store';
+import type {AppState} from '../store';
+import * as L from '../store/login';
 
 const DrawerContent: FC<DrawerContentComponentProps> = props => {
-  const loggedIn = useSelector<AppState, boolean>(state => state.loggedIn);
-  const loggedUser = useSelector<AppState, User>(state => state.loggedUser);
-
-  const {email, name} = loggedUser;
+  const login = useSelector<AppState, L.State>(state => state.login);
+  const {loggedIn, loggedUser} = login;
 
   const {navigation} = props;
   const close = useCallback(
@@ -50,15 +49,15 @@ const DrawerContent: FC<DrawerContentComponentProps> = props => {
       />
       <View style={[styles.content]}>
         <View style={[styles.row]}>
-          <Avatar uri={D.avatarUriByName(name)} size={40} />
-          <Text style={[styles.text, styles.m]}>{name}</Text>
+          <Avatar uri={D.avatarUriByName(loggedUser.name)} size={40} />
+          <Text style={[styles.text, styles.m]}>{loggedUser.name}</Text>
         </View>
         <View style={[styles.row]}>
           <UnderlineText
             numberOfLines={1}
             ellipsizeMode="tail"
             style={[styles.text, styles.m]}>
-            {email}
+            {loggedUser.email}
           </UnderlineText>
         </View>
         <View style={[styles.row, {marginTop: 20}]}>

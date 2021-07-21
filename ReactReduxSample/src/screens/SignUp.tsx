@@ -9,7 +9,7 @@ import * as D from '../data';
 import {useAutoFocus, AutoFocusProvider} from '../contexts';
 
 import {useDispatch} from 'react-redux';
-import {loginAction} from '../store';
+import * as L from '../store/login';
 
 export default function SignUp() {
   const [email, setEmail] = useState<string>(D.randomEmail());
@@ -23,7 +23,7 @@ export default function SignUp() {
   const navigation = useNavigation();
   const goTabNavigator = useCallback(() => {
     if (password === confirmPassword) {
-      dispatch(loginAction({name, email, password}));
+      dispatch(L.loginAction({name, email, password}));
       navigation.navigate('TabNavigator');
     } else {
       Alert.alert('password is invalid');

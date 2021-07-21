@@ -21,7 +21,7 @@ import * as D from '../data';
 import Person from './Person';
 
 import {useDispatch} from 'react-redux';
-import {logoutAction} from '../store';
+import * as L from '../store/login';
 
 export default function People() {
   const dispatch = useDispatch();
@@ -37,7 +37,7 @@ export default function People() {
     navigation.dispatch(DrawerActions.openDrawer());
   }, []);
   const logout = useCallback(() => {
-    dispatch(logoutAction());
+    dispatch(L.logoutAction());
     navigation.navigate('Login');
   }, []);
 

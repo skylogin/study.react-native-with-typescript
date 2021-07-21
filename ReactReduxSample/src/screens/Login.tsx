@@ -15,7 +15,7 @@ import * as D from '../data';
 import {useAutoFocus, AutoFocusProvider} from '../contexts';
 
 import {useDispatch} from 'react-redux';
-import {loginAction} from '../store';
+import * as L from '../store/login';
 
 export default function Login() {
   const [email, setEmail] = useState<string>(D.randomEmail());
@@ -28,7 +28,7 @@ export default function Login() {
   const focus = useAutoFocus();
   const navigation = useNavigation();
   const goTabNavigator = useCallback(() => {
-    dispatch(loginAction({email, name, password}));
+    dispatch(L.loginAction({email, name, password}));
     navigation.navigate('TabNavigator');
   }, []);
   const goSignUp = useCallback(() => navigation.navigate('SignUp'), []);
