@@ -20,7 +20,11 @@ import type {LeftRightNavigationMethods} from '../components';
 import * as D from '../data';
 import Person from './Person';
 
+import {useDispatch} from 'react-redux';
+import {logoutAction} from '../store';
+
 export default function People() {
+  const dispatch = useDispatch();
   // 네비게이션
   const navigation = useNavigation();
   const goLeft = useCallback(() => navigation.navigate('HomeLeft'), []);
@@ -33,6 +37,7 @@ export default function People() {
     navigation.dispatch(DrawerActions.openDrawer());
   }, []);
   const logout = useCallback(() => {
+    dispatch(logoutAction());
     navigation.navigate('Login');
   }, []);
 
