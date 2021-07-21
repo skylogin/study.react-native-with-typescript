@@ -1,32 +1,34 @@
 import React from 'react';
 import {StyleSheet} from 'react-native';
-import {SafeAreaView, View, Text, TopBar} from '../theme/navigation';
+import {useSelector, useDispatch} from 'react-redux';
+import {View, Text, NavigationHeader, TopBar} from '../theme';
+import {useInterval} from '../hooks';
+import type {AppState} from '../store';
+import * as C from '../store/clock';
 
-const title = 'CopyMe';
-export default function CopyMe() {
+export default function Clock() {
+  const {currentDate, currentTime} = useSelector<AppState, C.State>(
+    ({clock}) => clock,
+  );
+  const dispatch = useDispatch();
+  useInterval(() => {
+    dispatch(C.setTimeAction(new Date()));
+  }, 1000);
+
   return (
-    <SafeAreaView>
-      <View style={[styles.view]}>
-        <TopBar />
-        <View style={[styles.content]}>
-          <Text style={[styles.text]}>{title}</Text>
-        </View>
+    <View style={[styles.flex]}>
+      <NavigationHeader title="Clock" />
+      <TopBar />
+      <View style={[styles.flex, styles.textView]}>
+        <Text style={[styles.text]}>{currentTime}</Text>
+        <Text style={[styles.text]}>{currentDate}</Text>
       </View>
-    </SafeAreaView>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
-  view: {
-    flex: 1,
-    padding: 5,
-  },
-  text: {
-    fontSize: 20,
-  },
-  content: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
+  flex: {flex: 1},
+  textView: {alignItems: 'center', justifyContent: 'center'},
+  text: {fontSize: 30},
 });

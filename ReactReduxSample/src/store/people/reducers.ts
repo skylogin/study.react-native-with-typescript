@@ -1,8 +1,15 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-import * as T from './types';
+import type {State, Actions} from './types';
 
-const initialState: T.State = {};
+const initialState: State = [];
 
-export const reducer = (state: T.State = initialState, action: T.Actions) => {
+export const reducer = (state: State = initialState, action: Actions) => {
+  switch (action.type) {
+    case '@person/add':
+      return [...state, action.payload];
+    case '@person/delete':
+      return state.filter(person => person.id !== action.payload.id);
+    case '@person/deleteAll':
+      return initialState;
+  }
   return state;
 };

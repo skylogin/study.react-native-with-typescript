@@ -1,32 +1,58 @@
-import React from 'react';
-import {StyleSheet} from 'react-native';
-import {SafeAreaView, View, Text, TopBar} from '../theme/navigation';
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, {useCallback, useEffect} from 'react';
+import {StyleSheet, FlatList} from 'react-native';
+import {SafeAreaView, View, UnderlineText, TopBar} from '../theme/navigation';
+import {ScrollEnabledProvider, useScrollEnabled} from '../contexts';
+import * as D from '../data';
+import Person from './Person';
+import {useSelector, useDispatch} from 'react-redux';
+import {AppState} from '../store';
+import * as P from '../store/people';
 
-const title = 'CopyMe';
-export default function CopyMe() {
+export default function People() {
+  const [scrollEnabled] = useScrollEnabled();
+  const people = useSelector<AppState, P.State>(({people}) => people);
+  const dispatch = useDispatch();
+  const addPerson = useCallback(() => {
+    dispatch(P.addAction(D.createRandomPerson()));
+  }, []);
+  const removeAllPersons = useCallback(() => {
+    dispatch(P.deleteAllAction());
+  }, []);
+  const deletePerson = useCallback(
+    (id: string) => () => {
+      dispatch(P.deleteAction(id));
+    },
+    [],
+  );
+  useEffect(() => D.makeArray(5).forEach(addPerson), []);
+
   return (
     <SafeAreaView>
-      <View style={[styles.view]}>
-        <TopBar />
-        <View style={[styles.content]}>
-          <Text style={[styles.text]}>{title}</Text>
+      <ScrollEnabledProvider>
+        <View style={[styles.view]}>
+          <TopBar>
+            <UnderlineText onPress={addPerson} style={styles.text}>
+              add
+            </UnderlineText>
+            <UnderlineText onPress={removeAllPersons} style={styles.text}>
+              remove all
+            </UnderlineText>
+          </TopBar>
+          <FlatList
+            scrollEnabled={scrollEnabled}
+            data={people}
+            renderItem={({item}) => (
+              <Person person={item} deletePressed={deletePerson(item.id)} />
+            )}
+            keyExtractor={item => item.id}
+          />
         </View>
-      </View>
+      </ScrollEnabledProvider>
     </SafeAreaView>
   );
 }
-
 const styles = StyleSheet.create({
-  view: {
-    flex: 1,
-    padding: 5,
-  },
-  text: {
-    fontSize: 20,
-  },
-  content: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
+  view: {flex: 1},
+  text: {marginRight: 10, fontSize: 20},
 });
