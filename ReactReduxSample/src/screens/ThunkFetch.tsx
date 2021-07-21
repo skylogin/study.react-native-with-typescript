@@ -1,34 +1,41 @@
-import React from 'react';
-import {StyleSheet} from 'react-native';
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, {useCallback, useEffect} from 'react';
+import {StyleSheet, ActivityIndicator} from 'react-native';
 import {useSelector, useDispatch} from 'react-redux';
-import {View, Text, NavigationHeader, TopBar} from '../theme';
-import {useInterval} from '../hooks';
+import {Colors} from 'react-native-paper';
+import {SafeAreaView, View, Text, TopBar, UnderlineText} from '../theme';
 import type {AppState} from '../store';
-import * as C from '../store/clock';
+import * as H from '../store/humor';
 
-export default function Clock() {
-  const {currentDate, currentTime} = useSelector<AppState, C.State>(
-    ({clock}) => clock,
+export default function ThunkFetch() {
+  const {humorText, errorMessage, loading} = useSelector<AppState, H.State>(
+    ({humor}) => humor,
   );
   const dispatch = useDispatch();
-  useInterval(() => {
-    dispatch(C.setTimeAction(new Date()));
-  }, 1000);
-
+  const getHumor = useCallback(() => {
+    dispatch(H.requestHumor());
+  }, []);
+  useEffect(getHumor, []);
   return (
-    <View style={[styles.flex]}>
-      <NavigationHeader title="Clock" />
-      <TopBar />
-      <View style={[styles.flex, styles.textView]}>
-        <Text style={[styles.text]}>{currentTime}</Text>
-        <Text style={[styles.text]}>{currentDate}</Text>
+    <SafeAreaView>
+      <TopBar>
+        <UnderlineText style={[styles.text]} onPress={getHumor}>
+          get humor using thunk
+        </UnderlineText>
+      </TopBar>
+      {loading && (
+        <ActivityIndicator size="large" color={Colors.lightBlue500} />
+      )}
+      <View style={[styles.content]}>
+        <Text style={[styles.text]}>{humorText}</Text>
+        {errorMessage.length > 0 && (
+          <Text style={[styles.text]}>{errorMessage}</Text>
+        )}
       </View>
-    </View>
+    </SafeAreaView>
   );
 }
-
 const styles = StyleSheet.create({
-  flex: {flex: 1},
-  textView: {alignItems: 'center', justifyContent: 'center'},
-  text: {fontSize: 30},
+  text: {fontSize: 20, textAlign: 'center'},
+  content: {flex: 1, alignItems: 'center', justifyContent: 'center'},
 });
