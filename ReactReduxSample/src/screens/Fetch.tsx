@@ -1,51 +1,50 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, {useCallback} from 'react';
-import {StyleSheet} from 'react-native';
-import {useSelector, useDispatch} from 'react-redux';
-import {
-  View,
-  Text,
-  NavigationHeader,
-  TopBar,
-  MaterialCommunityIcon as Icon,
-} from '../theme';
+import React, {useState, useCallback, useEffect} from 'react';
+import {StyleSheet, ActivityIndicator} from 'react-native';
+import {Colors} from 'react-native-paper';
+import {SafeAreaView, View, Text, TopBar, UnderlineText} from '../theme';
 
-import type {AppState} from '../store';
-import * as C from '../store/counter';
-
-export default function Counter() {
-  const counter = useSelector<AppState, C.State>(state => state.counter);
-  const dispatch = useDispatch();
-  const increaseCounter = useCallback(() => {
-    dispatch(C.increaseAction());
+export default function Fetch() {
+  const [humorText, setHumorText] = useState<string>('');
+  const [errorMessage, setErrorMessage] = useState<string>('');
+  const [loading, setLoading] = useState<boolean>(false);
+  const getHumor = useCallback(() => {
+    setHumorText('');
+    setErrorMessage('');
+    setLoading(true);
+    fetch('https://api.chucknorris.io/jokes/random')
+      .then(res => res.json())
+      .then(result => {
+        setHumorText(result.value);
+        setLoading(false);
+      })
+      .catch(e => {
+        setErrorMessage(e.message);
+        setLoading(false);
+      });
   }, []);
-  const decreaseCounter = useCallback(() => {
-    dispatch(C.decreaseAction());
-  }, []);
+  useEffect(getHumor, []);
 
   return (
-    <View style={[styles.flex]}>
-      <NavigationHeader title="Counter" />
+    <SafeAreaView>
       <TopBar>
-        <Icon name="plus" size={30} onPress={increaseCounter} />
-        <Icon name="minus" size={30} onPress={decreaseCounter} />
+        <UnderlineText style={[styles.text]} onPress={getHumor}>
+          get humor
+        </UnderlineText>
       </TopBar>
-      <View style={[styles.flex, styles.textView]}>
-        <Text style={[styles.text]}>counter: {counter}</Text>
+      {loading && (
+        <ActivityIndicator size="large" color={Colors.lightBlue500} />
+      )}
+      <View style={[styles.content]}>
+        <Text style={[styles.text]}>{humorText}</Text>
+        {errorMessage.length > 0 && (
+          <Text style={[styles.text]}>{errorMessage}</Text>
+        )}
       </View>
-    </View>
+    </SafeAreaView>
   );
 }
-
 const styles = StyleSheet.create({
-  flex: {
-    flex: 1,
-  },
-  text: {
-    fontSize: 30,
-  },
-  textView: {
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
+  text: {fontSize: 20, textAlign: 'center'},
+  content: {flex: 1, alignItems: 'center', justifyContent: 'center'},
 });
