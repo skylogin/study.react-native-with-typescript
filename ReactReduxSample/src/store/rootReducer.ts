@@ -11,5 +11,11 @@ export const rootReducer = (
   state: AppState = initialState,
   action: LoginActions,
 ) => {
+  switch (action.type) {
+    case 'login':
+      return {...state, loggedUser: action.loggedUser, loggedIn: true};
+    case 'logout':
+      return initialState;
+  }
   return state;
 };

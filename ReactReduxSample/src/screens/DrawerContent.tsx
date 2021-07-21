@@ -12,9 +12,15 @@ import {DrawerActions} from '@react-navigation/native';
 import {Avatar} from '../components';
 import * as D from '../data';
 
+import {useSelector} from 'react-redux';
+import type {AppState, User} from '../store';
+
 const loginUser = D.createRandomPerson();
 
 const DrawerContent: FC<DrawerContentComponentProps> = props => {
+  const loggedIn = useSelector<AppState, boolean>(state => state.loggedIn);
+  const loggedUser = useSelector<AppState, User>(state => state.loggedUser);
+
   const {navigation} = props;
   const close = useCallback(
     () => navigation.dispatch(DrawerActions.closeDrawer()),

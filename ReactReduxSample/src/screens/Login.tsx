@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, {useState, useCallback} from 'react';
 import {StyleSheet} from 'react-native';
@@ -13,17 +14,23 @@ import {
 import * as D from '../data';
 import {useAutoFocus, AutoFocusProvider} from '../contexts';
 
+import {useDispatch} from 'react-redux';
+import {loginAction} from '../store';
+
 export default function Login() {
-  const [person, setPerson] = useState<D.IPerson>(D.createRandomPerson());
+  const [email, setEmail] = useState<string>(D.randomEmail());
+  const [name, setName] = useState<string>(D.randomName());
   const [password, setPassword] = useState<string>(
     D.random(10000, 1000000).toString(),
   );
+
+  const dispatch = useDispatch();
   const focus = useAutoFocus();
   const navigation = useNavigation();
-  const goTabNavigator = useCallback(
-    () => navigation.navigate('TabNavigator'),
-    [],
-  );
+  const goTabNavigator = useCallback(() => {
+    dispatch(loginAction({email, name, password}));
+    navigation.navigate('TabNavigator');
+  }, []);
   const goSignUp = useCallback(() => navigation.navigate('SignUp'), []);
 
   return (
@@ -36,10 +43,8 @@ export default function Login() {
               <TextInput
                 onFocus={focus}
                 style={[styles.textInput]}
-                value={person.email}
-                onChangeText={email =>
-                  setPerson(person => ({...person, email}))
-                }
+                value={email}
+                onChangeText={setEmail}
                 placeholder="enter your email"
               />
             </View>
