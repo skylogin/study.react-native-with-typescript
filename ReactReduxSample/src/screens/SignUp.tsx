@@ -8,14 +8,22 @@ from '../theme';
 import * as D from '../data';
 import {useAutoFocus, AutoFocusProvider} from '../contexts';
 
+import {useDispatch} from 'react-redux';
+import {loginAction} from '../store';
+
 export default function SignUp() {
-  const [person, setPerson] = useState<D.IPerson>(D.createRandomPerson());
+  const [email, setEmail] = useState<string>(D.randomEmail());
+  const [name, setName] = useState<string>(D.randomName());
   const [password, setPassword] = useState<string>('1');
   const [confirmPassword, setConfirmPassword] = useState<string>(password);
+
+  const dispatch = useDispatch();
   const focus = useAutoFocus();
+
   const navigation = useNavigation();
   const goTabNavigator = useCallback(() => {
     if (password === confirmPassword) {
+      dispatch(loginAction({name, email, password}));
       navigation.navigate('TabNavigator');
     } else {
       Alert.alert('password is invalid');
@@ -32,10 +40,8 @@ export default function SignUp() {
               <TextInput
                 onFocus={focus}
                 style={[styles.textInput]}
-                value={person.email}
-                onChangeText={email =>
-                  setPerson(person => ({...person, email}))
-                }
+                value={email}
+                onChangeText={setEmail}
                 placeholder="enter your email"
               />
             </View>
@@ -46,8 +52,8 @@ export default function SignUp() {
               <TextInput
                 onFocus={focus}
                 style={[styles.textInput]}
-                value={person.name}
-                onChangeText={name => setPerson(person => ({...person, name}))}
+                value={name}
+                onChangeText={setName}
                 placeholder="enter your name"
               />
             </View>
