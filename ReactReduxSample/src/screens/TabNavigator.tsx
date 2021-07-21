@@ -1,13 +1,14 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import React from 'react';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+import {Colors} from 'react-native-paper';
 
-// import Login from './Login';
-// import SignUp from './SignUp';
 import HomeNavigator from './HomeNavigator';
+import Counter from './Counter';
+import Clock from './Clock';
+import People from './People';
+import UseReducer from './UseReducer';
 
-// import AntIcon from 'react-native-vector-icons/AntDesign';
-// import FontawesomeIcon from 'react-native-vector-icons/FontAwesome';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 import type {RouteProp, ParamListBase} from '@react-navigation/native';
@@ -15,8 +16,10 @@ type TabBarIconProps = {focused: boolean; color: string; size: number};
 
 const icons: Record<string, string[]> = {
   HomeNavigator: ['home-circle', 'home-circle-outline'],
-  // Login: ['account-search', 'account-search-outline'],
-  // SignUp: ['account-clock', 'account-clock-outline'],
+  Counter: ['eye-plus', 'eye-plus-outline'],
+  Clock: ['clock-alert', 'clock-alert-outline'],
+  People: ['account-group', 'account-group-outline'],
+  UseReducer: ['group', 'ungroup'],
 };
 
 const screenOptions = ({route}: {route: RouteProp<ParamListBase, string>}) => {
@@ -29,15 +32,6 @@ const screenOptions = ({route}: {route: RouteProp<ParamListBase, string>}) => {
       const iconName = focused ? icon : iconOutline;
 
       return <Icon name={iconName} size={focusedSize} color={focusedColor} />;
-
-      // 아이콘과 메뉴명 함께 노출
-      // switch (name) {
-      //   case 'Login':
-      //     return <AntIcon name="login" size={size} color={color} />;
-      //   case 'SignUp':
-      //     return <FontawesomeIcon name="sign-in" size={size} color={color} />;
-      // }
-      // return <Icon name="home" size={size} color={color} />;
     },
   };
 };
@@ -47,13 +41,15 @@ const Tab = createBottomTabNavigator();
 export default function TabNavigator() {
   return (
     <Tab.Navigator screenOptions={screenOptions}>
-      {/* <Tab.Screen name="Login" component={Login} /> */}
-      {/* <Tab.Screen name="SignUp" component={SignUp} /> */}
       <Tab.Screen
         name="HomeNavigator"
         component={HomeNavigator}
         options={{tabBarLabel: 'Home'}}
       />
+      <Tab.Screen name="Counter" component={Counter} />
+      <Tab.Screen name="Clock" component={Clock} />
+      <Tab.Screen name="People" component={People} />
+      <Tab.Screen name="UseReducer" component={UseReducer} />
     </Tab.Navigator>
   );
 }
