@@ -11,4 +11,9 @@ export type State = {
   loggedUser: User;
 };
 
-export type Actions = Action;
+export type LogoutAction = Action<'logout'>;
+export type LoginAction = Action<'login'> & {
+  loggedUser: User;
+};
+
+export type Actions = LogoutAction | LoginAction;
