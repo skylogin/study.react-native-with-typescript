@@ -9,6 +9,9 @@ import Clock from './Clock';
 import People from './People';
 import UseReducer from './UseReducer';
 
+import Fetch from './Fetch';
+import ThunkFetch from './ThunkFetch';
+
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 import type {RouteProp, ParamListBase} from '@react-navigation/native';
@@ -20,6 +23,8 @@ const icons: Record<string, string[]> = {
   Clock: ['clock-alert', 'clock-alert-outline'],
   People: ['account-group', 'account-group-outline'],
   UseReducer: ['group', 'ungroup'],
+  Fetch: ['eye-plus', 'eye-plus-outline'],
+  ThunkFetch: ['clock-alert', 'clock-alert-outline'],
 };
 
 const screenOptions = ({route}: {route: RouteProp<ParamListBase, string>}) => {
@@ -44,12 +49,14 @@ export default function TabNavigator() {
       <Tab.Screen
         name="HomeNavigator"
         component={HomeNavigator}
-        options={{tabBarLabel: 'Home'}}
+        options={{tabBarLabel: 'Home', tabBarBadge: 3}}
       />
       <Tab.Screen name="Counter" component={Counter} />
       <Tab.Screen name="Clock" component={Clock} />
       <Tab.Screen name="People" component={People} />
       <Tab.Screen name="UseReducer" component={UseReducer} />
+      <Tab.Screen name="Fetch" component={Fetch} />
+      <Tab.Screen name="ThunkFetch" component={ThunkFetch} />
     </Tab.Navigator>
   );
 }
