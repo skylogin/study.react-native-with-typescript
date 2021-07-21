@@ -1,7 +1,11 @@
-import {createStore} from 'redux';
+import {createStore, applyMiddleware} from 'redux';
 import {rootReducer} from './rootReducer';
+import {logger} from './logger';
 
 export const makeStore = () => {
-  const store = createStore(rootReducer);
-  return store;
+  let middlewares: any[] = [];
+  if (__DEV__) {
+    middlewares.push(logger);
+  }
+  return createStore(rootReducer, applyMiddleware(...middlewares));
 };
